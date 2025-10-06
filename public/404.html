@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - URL Not Found</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#667eea",
+              secondary: "#764ba2",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      .animate-bounce-custom {
+        animation: bounce 1s infinite;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-primary via-purple-600 to-secondary min-h-screen flex items-center justify-center p-5 font-sans"
+  >
+    <div class="text-center text-white max-w-2xl">
+      <div class="text-6xl mb-5 animate-bounce-custom">🔍</div>
+      <div class="text-[8rem] font-bold mb-5 drop-shadow-2xl">404</div>
+      <h1 class="text-3xl font-bold mb-4">ไม่พบ Short URL นี้</h1>
+      <p class="text-xl mb-8 opacity-90">
+        ขออภัย ลิงก์ที่คุณกำลังค้นหาไม่มีอยู่ในระบบ<br />
+        กรุณาตรวจสอบ URL อีกครั้ง
+      </p>
+      <a
+        href="/"
+        class="inline-block px-8 py-4 bg-white text-primary rounded-xl font-semibold text-lg shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-3xl"
+      >
+        กลับหน้าหลัก
+      </a>
+    </div>
+  </body>
+</html>
