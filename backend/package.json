@@ -1,0 +1,50 @@
+{
+  "name": "shorturl-backend",
+  "version": "1.0.0",
+  "description": "URL Shortener Backend - Express + TypeScript",
+  "type": "module",
+  "main": "dist/server.js",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "tsx watch server.ts",
+    "start": "tsx server.ts",
+    "build": "tsc",
+    "serve": "node dist/server.js",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "url-shortener",
+    "express",
+    "typescript",
+    "backend",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.906.0",
+    "@aws-sdk/lib-dynamodb": "^3.906.0",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "nanoid": "^3.3.7",
+    "qrcode": "^1.5.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.18.9",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "~5.9.0"
+  }
+}
