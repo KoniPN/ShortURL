@@ -29,7 +29,7 @@ coverage
 
 *.tsbuildinfo
 node_modules/
-.env
+.env*
 .DS_Store
 *.log
 npm-debug.log*
@@ -40,6 +40,5 @@ dist/
 build/
 app.js
 backup/
-DOCUMENTATION.md
-README.md
+*.md
 *lock.json
