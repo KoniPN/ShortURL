@@ -28,6 +28,7 @@ const {
 // Local state
 const url = ref("");
 const result = ref<UrlData | null>(null);
+const copiedItems = ref<Set<string>>(new Set()); // Track which items are copied
 
 // Lifecycle
 onMounted(async () => {
@@ -124,6 +125,28 @@ async function loadUrlList() {
   await loadUrls(authStore.isAuthenticated);
 }
 
+// Copy URL from history list
+async function copyUrlFromHistory(shortCode: string) {
+  const fullUrl = `${window.location.origin}/${shortCode}`;
+  const success = await copyToClipboard(fullUrl);
+  if (success) {
+    showToast("คัดลอกลิงก์แล้ว!", "success");
+    // เพิ่ม shortCode เข้า Set เพื่อแสดง checkmark
+    copiedItems.value.add(shortCode);
+    // ลบออกหลัง 2 วินาที
+    setTimeout(() => {
+      copiedItems.value.delete(shortCode);
+    }, 2000);
+  } else {
+    showToast("ไม่สามารถคัดลอกได้", "error");
+  }
+}
+
+// Check if item is copied
+function isItemCopied(shortCode: string): boolean {
+  return copiedItems.value.has(shortCode);
+}
+
 // Logout
 async function handleLogout() {
   await authStore.logout();
@@ -143,14 +166,6 @@ async function handleLogout() {
       <div class="absolute top-0 right-0">
         <div v-if="authStore.isAuthenticated" class="flex items-center gap-3">
           <span class="text-white/90">สวัสดี, {{ authStore.user?.name }}</span>
-          <!-- Admin Button -->
-          <button
-            v-if="authStore.isAdmin"
-            @click="router.push('/admin')"
-            class="px-4 py-2 bg-red-500/80 hover:bg-red-600 text-white rounded-lg font-medium transition backdrop-blur-sm"
-          >
-            🔐 Admin
-          </button>
           <button
             @click="handleLogout"
             class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-medium transition backdrop-blur-sm"
@@ -397,22 +412,64 @@ async function handleLogout() {
           </p>
 
           <div
-            v-for="urlItem in sortedUrls.slice(0, 10)"
+            v-for="urlItem in sortedUrls"
             :key="urlItem.shortCode"
-            class="p-4 bg-gray-50 rounded-xl transition-all duration-200 border-2 border-transparent hover:bg-white hover:border-primary hover:shadow-md"
+            class="group p-4 bg-gray-50 rounded-xl transition-all duration-200 border-2 border-transparent hover:bg-white hover:border-primary hover:shadow-md"
           >
-            <div class="flex items-start justify-between mb-2">
-              <span class="text-lg font-bold text-primary"
-                >/{{ urlItem.shortCode }}</span
-              >
+            <div class="flex items-start justify-between mb-3">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-lg font-bold text-primary"
+                    >/{{ urlItem.shortCode }}</span
+                  >
+                  <button
+                    @click="copyUrlFromHistory(urlItem.shortCode)"
+                    :title="
+                      isItemCopied(urlItem.shortCode)
+                        ? 'คัดลอกแล้ว!'
+                        : 'คัดลอกลิงก์'
+                    "
+                    class="p-1.5 text-gray-600 hover:text-white hover:bg-primary rounded-lg transition-all hover:scale-110 active:scale-95"
+                  >
+                    <svg
+                      v-if="!isItemCopied(urlItem.shortCode)"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
+                      />
+                      <path
+                        d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
+                      />
+                    </svg>
+                    <svg
+                      v-else
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      class="text-green-500"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div class="text-gray-600 text-sm break-all">
+                  {{ truncateUrl(urlItem.originalUrl, 60) }}
+                </div>
+              </div>
               <span
-                class="bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold"
+                class="ml-3 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap"
               >
-                👁️ {{ urlItem.clicks }} คลิก
+                👁️ {{ urlItem.clicks }}
               </span>
-            </div>
-            <div class="text-gray-600 text-sm mb-2 break-all">
-              {{ truncateUrl(urlItem.originalUrl, 60) }}
             </div>
             <div class="text-gray-500 text-xs">
               สร้างเมื่อ {{ formatDate(urlItem.createdAt) }}
@@ -423,10 +480,7 @@ async function handleLogout() {
     </main>
 
     <!-- Footer -->
-    <footer class="text-center text-white mt-10 p-5 opacity-90">
-      <p class="mb-1">Made with ❤️ for Cloud Computing Project</p>
-      <p class="text-sm opacity-80">Node.js • Express • Vue 3 • AWS Ready</p>
-    </footer>
+    <footer class="text-center text-white mt-10 p-5 opacity-90"></footer>
 
     <!-- Loading Overlay -->
     <Transition name="fade">

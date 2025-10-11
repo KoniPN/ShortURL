@@ -93,68 +93,51 @@ export function optionalAuth(
 /**
  * Generate JWT Token (อายุ 7 วัน)
  */
-export function generateToken(
-  userId: string,
-  email: string,
-  isAdmin: boolean = false
-): string {
-  return jwt.sign(
-    { userId, email, isAdmin },
-    JWT_SECRET,
-    { expiresIn: "7d" } // Token อายุ 7 วัน
-  );
+export function generateToken(userId: string, email: string): string {
+  return jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: "7d" }); // Token อายุ 7 วัน
 }
 
-/**
- * Admin Only Middleware
- * ใช้สำหรับ route ที่ต้องการสิทธิ์ admin เท่านั้น
- */
-export function requireAdmin(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
-  try {
-    const token =
-      req.cookies.token || req.headers.authorization?.replace("Bearer ", "");
+// /**
+//  * Admin Only Middleware (REMOVED - Admin features disabled)
+//  * ใช้สำหรับ route ที่ต้องการสิทธิ์ admin เท่านั้น
+//  */
+// export function requireAdmin(
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ): void {
+//   try {
+//     const token =
+//       req.cookies.token || req.headers.authorization?.replace("Bearer ", "");
 
-    if (!token) {
-      res.status(401).json({
-        success: false,
-        error: "กรุณา login ก่อนใช้งาน",
-      });
-      return;
-    }
+//     if (!token) {
+//       res.status(401).json({
+//         success: false,
+//         error: "กรุณา login ก่อนใช้งาน",
+//       });
+//       return;
+//     }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+//     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-    // ตรวจสอบว่าเป็น admin หรือไม่
-    if (!decoded.isAdmin) {
-      res.status(403).json({
-        success: false,
-        error: "ไม่มีสิทธิ์เข้าถึง - Admin เท่านั้น",
-      });
-      return;
-    }
+//     req.user = {
+//       userId: decoded.userId,
+//       email: decoded.email,
+//     };
 
-    req.user = {
-      userId: decoded.userId,
-      email: decoded.email,
-    };
+//     next();
+//   } catch (error) {
+//     if (error instanceof jwt.TokenExpiredError) {
+//       res.status(401).json({
+//         success: false,
+//         error: "Token หมดอายุ กรุณา login ใหม่",
+//       });
+//       return;
+//     }
 
-    next();
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      res.status(401).json({
-        success: false,
-        error: "Token หมดอายุ กรุณา login ใหม่",
-      });
-      return;
-    }
-
-    res.status(401).json({
-      success: false,
-      error: "Token ไม่ถูกต้อง",
-    });
-  }
-}
+//     res.status(401).json({
+//       success: false,
+//       error: "Token ไม่ถูกต้อง",
+//     });
+//   }
+// }

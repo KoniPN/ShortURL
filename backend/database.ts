@@ -90,24 +90,6 @@ const database: Database = {
   async findUserById(userId: string): Promise<User | null> {
     return userDatabase.get(userId) || null;
   },
-
-  // Admin operations
-  async getAllUsers(): Promise<User[]> {
-    return Array.from(userDatabase.values());
-  },
-
-  async deleteUrlByShortCode(shortCode: string): Promise<boolean> {
-    return urlDatabase.delete(shortCode);
-  },
-
-  async deleteUser(userId: string): Promise<boolean> {
-    console.log("🔨 [DB] Attempting to delete user:", userId);
-    console.log("🔨 [DB] Current users count:", userDatabase.size);
-    const result = userDatabase.delete(userId);
-    console.log("🔨 [DB] Delete result:", result);
-    console.log("🔨 [DB] Users count after delete:", userDatabase.size);
-    return result;
-  },
 };
 
 export default database;

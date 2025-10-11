@@ -6,7 +6,6 @@ export interface User {
   email: string;
   password: string; // hashed
   name: string;
-  isAdmin: boolean; // Admin role
   createdAt: string;
 }
 
@@ -28,7 +27,6 @@ export interface AuthResponse {
     id: string;
     email: string;
     name: string;
-    isAdmin: boolean;
   };
   error?: string;
 }
@@ -36,7 +34,6 @@ export interface AuthResponse {
 export interface JwtPayload {
   userId: string;
   email: string;
-  isAdmin: boolean;
   iat: number;
   exp: number;
 }
@@ -93,9 +90,4 @@ export interface Database {
   createUser(user: Omit<User, "id" | "createdAt">): Promise<User>;
   findUserByEmail(email: string): Promise<User | null>;
   findUserById(userId: string): Promise<User | null>;
-
-  // Admin operations
-  getAllUsers(): Promise<User[]>;
-  deleteUrlByShortCode(shortCode: string): Promise<boolean>;
-  deleteUser(userId: string): Promise<boolean>;
 }

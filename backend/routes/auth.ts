@@ -50,19 +50,15 @@ router.post("/register", async (req: Request, res: Response) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user (user แรกที่สมัครจะเป็น admin อัตโนมัติ)
-    const allUsers = await db.getAllUsers();
-    const isFirstUser = allUsers.length === 0;
-
+    // Create user
     const user = await db.createUser({
       email,
       password: hashedPassword,
       name,
-      isAdmin: isFirstUser, // user แรก = admin
     });
 
     // Generate token (อายุ 7 วัน)
-    const token = generateToken(user.id, user.email, user.isAdmin);
+    const token = generateToken(user.id, user.email);
 
     // Set cookie
     res.cookie("token", token, {
@@ -79,7 +75,6 @@ router.post("/register", async (req: Request, res: Response) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        isAdmin: user.isAdmin,
       },
     } as AuthResponse);
   } catch (error) {
@@ -126,7 +121,7 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     // Generate token (อายุ 7 วัน)
-    const token = generateToken(user.id, user.email, user.isAdmin);
+    const token = generateToken(user.id, user.email);
 
     // Set cookie
     res.cookie("token", token, {
@@ -143,7 +138,6 @@ router.post("/login", async (req: Request, res: Response) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        isAdmin: user.isAdmin,
       },
     } as AuthResponse);
   } catch (error) {
@@ -194,7 +188,6 @@ router.get("/me", requireAuth, async (req: Request, res: Response) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        isAdmin: user.isAdmin,
       },
     } as AuthResponse);
   } catch (error) {

@@ -5,7 +5,6 @@ interface User {
   id: string;
   email: string;
   name: string;
-  isAdmin: boolean;
 }
 
 interface AuthResponse {
@@ -27,7 +26,6 @@ export const useAuthStore = defineStore("auth", () => {
 
   // Getters
   const isAuthenticated = computed(() => !!user.value && !!token.value);
-  const isAdmin = computed(() => user.value?.isAdmin === true);
 
   // Actions
   async function register(email: string, password: string, name: string) {
@@ -175,7 +173,6 @@ export const useAuthStore = defineStore("auth", () => {
 
     // Getters
     isAuthenticated,
-    isAdmin,
 
     // Actions
     register,

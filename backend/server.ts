@@ -15,7 +15,6 @@ import {
 } from "./utils.js";
 import type { ApiResponse, ShortenResponse } from "./types.js";
 import authRoutes from "./routes/auth.js";
-import adminRoutes from "./routes/admin.js";
 import { optionalAuth, requireAuth } from "./middleware/auth.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,9 +38,6 @@ app.use(express.static("public"));
 
 // Auth Routes
 app.use("/api/auth", authRoutes);
-
-// Admin Routes (ต้อง login และเป็น admin)
-app.use("/api/admin", adminRoutes);
 
 // =====================================================
 // API Routes
