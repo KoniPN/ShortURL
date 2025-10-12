@@ -1,5 +1,6 @@
 // API Service for URL Shortener
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+const API_BASE =
+  "http://cloudurlshorter-alb-1656761641.us-east-1.elb.amazonaws.com";
 
 export interface UrlData {
   originalUrl: string;
@@ -34,7 +35,7 @@ function getAuthHeaders(): HeadersInit {
 export async function createShortUrl(
   url: string
 ): Promise<ApiResponse<UrlData>> {
-  const response = await fetch(`${API_BASE}/shorten`, {
+  const response = await fetch(`${API_BASE}/api/shorten`, {
     method: "POST",
     headers: getAuthHeaders(),
     credentials: "include", // ส่ง cookies
@@ -46,7 +47,7 @@ export async function createShortUrl(
 
 // ดึง URL ทั้งหมด (สำหรับ admin/development)
 export async function getAllUrls(): Promise<ApiResponse<UrlData[]>> {
-  const response = await fetch(`${API_BASE}/urls`);
+  const response = await fetch(`${API_BASE}/api/urls`);
   return response.json();
 }
 
