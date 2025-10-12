@@ -1,5 +1,5 @@
 // API Service for URL Shortener
-const API_BASE = "/api";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
 export interface UrlData {
   originalUrl: string;
