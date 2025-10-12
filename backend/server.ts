@@ -28,7 +28,7 @@ const BASE_URL = process.env.BASE_URL ;
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin:BASE_URL || "http://localhost:5173",
     credentials: true, // อนุญาตให้ส่ง cookies
   })
 );
