@@ -127,7 +127,8 @@ async function loadUrlList() {
 
 // Copy URL from history list
 async function copyUrlFromHistory(shortCode: string) {
-  const fullUrl = `${window.location.origin}/${shortCode}`;
+  const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
+  const fullUrl = `${baseUrl}/${shortCode}`;
   const success = await copyToClipboard(fullUrl);
   if (success) {
     showToast("คัดลอกลิงก์แล้ว!", "success");

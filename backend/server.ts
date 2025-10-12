@@ -5,7 +5,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, resolve } from "url";
 import db from "./database.js";
 import {
   generateShortCode,
@@ -19,10 +19,11 @@ import { optionalAuth, requireAuth } from "./middleware/auth.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+dotenv.config({ path: resolve(__dirname, "../.env") });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
+const BASE_URL = process.env.BASE_URL ;
 
 // Middleware
 app.use(

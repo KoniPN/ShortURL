@@ -42,3 +42,5 @@ app.js
 backup/
 *.md
 *lock.json
+*.tf
+terraform.*
