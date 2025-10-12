@@ -5,14 +5,12 @@ export interface User {
   id: string;
   email: string;
   password: string; // hashed
-  name: string;
   createdAt: string;
 }
 
 export interface RegisterRequest {
   email: string;
   password: string;
-  name: string;
 }
 
 export interface LoginRequest {

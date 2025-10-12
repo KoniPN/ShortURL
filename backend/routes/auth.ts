@@ -12,10 +12,10 @@ const router = express.Router();
  */
 router.post("/register", async (req: Request, res: Response) => {
   try {
-    const { email, password, name } = req.body as RegisterRequest;
+    const { email, password } = req.body as RegisterRequest;
 
     // Validation
-    if (!email || !password || !name) {
+    if (!email || !password) {
       return res.status(400).json({
         success: false,
         error: "กรุณากรอกข้อมูลให้ครบถ้วน",
@@ -54,7 +54,6 @@ router.post("/register", async (req: Request, res: Response) => {
     const user = await db.createUser({
       email,
       password: hashedPassword,
-      name,
     });
 
     // Generate token (อายุ 7 วัน)
@@ -74,7 +73,6 @@ router.post("/register", async (req: Request, res: Response) => {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
       },
     } as AuthResponse);
   } catch (error) {
@@ -137,7 +135,6 @@ router.post("/login", async (req: Request, res: Response) => {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
       },
     } as AuthResponse);
   } catch (error) {
@@ -187,7 +184,6 @@ router.get("/me", requireAuth, async (req: Request, res: Response) => {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
       },
     } as AuthResponse);
   } catch (error) {
