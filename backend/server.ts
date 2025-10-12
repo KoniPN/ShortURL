@@ -24,11 +24,11 @@ dotenv.config({ path: resolve(__dirname, "../.env") });
 const app = express();
 const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL ;
-
+console.log(BASE_URL);
 // Middleware
 app.use(
   cors({
-    origin:BASE_URL || "http://localhost:5173",
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true, // อนุญาตให้ส่ง cookies
   })
 );
