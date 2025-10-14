@@ -165,6 +165,7 @@ const database: Database = {
         Item: {
           userId: id,
           email: user.email,
+          name: user.name,
           password: user.password,
           createdAt: user.createdAt,
         },
@@ -193,6 +194,7 @@ const database: Database = {
     return {
       id: dbUser.userId,
       email: dbUser.email,
+      name: dbUser.name || "",
       password: dbUser.password,
       createdAt: dbUser.createdAt,
     };
@@ -212,6 +214,7 @@ const database: Database = {
     return {
       id: dbUser.userId,
       email: dbUser.email,
+      name: dbUser.name || "",
       password: dbUser.password,
       createdAt: dbUser.createdAt,
     };

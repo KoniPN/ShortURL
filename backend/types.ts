@@ -4,6 +4,7 @@
 export interface User {
   id: string;
   email: string;
+  name: string;
   password: string; // hashed
   createdAt: string;
 }
@@ -11,6 +12,7 @@ export interface User {
 export interface RegisterRequest {
   email: string;
   password: string;
+  name: string;
 }
 
 export interface LoginRequest {
