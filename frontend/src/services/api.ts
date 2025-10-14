@@ -1,6 +1,5 @@
 // API Service for URL Shortener
-const API_BASE =
-  "http://cloudurlshorter-alb-1656761641.us-east-1.elb.amazonaws.com";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
 export interface UrlData {
   originalUrl: string;

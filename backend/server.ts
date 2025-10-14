@@ -29,7 +29,10 @@ console.log(BASE_URL);
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || "http://localhost:5173",
-    credentials: true, // อนุญาตให้ส่ง cookies
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 200,
   })
 );
 app.use(express.json());

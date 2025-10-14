@@ -15,8 +15,7 @@ interface AuthResponse {
   message?: string;
 }
 
-const API_URL =
-  "http://cloudurlshorter-alb-1656761641.us-east-1.elb.amazonaws.com";
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
 export const useAuthStore = defineStore("auth", () => {
   // State
