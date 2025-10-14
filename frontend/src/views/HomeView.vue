@@ -100,17 +100,26 @@ async function copyUrl() {
     showToast("ไม่สามารถคัดลอกได้", "error");
   }
 }
+methods: {
+  openNewTab() {
+    // ตรวจว่ามี QR Code URL มั้ย
+    if (!this.result || !this.result.qrCode) return;
 
-// Download QR Code
-function downloadQR() {
-  if (!result.value || !result.value.qrCode) return;
+    // เปิดในแท็บใหม่
+    window.open(this.result.qrCode, "_blank", "noopener,noreferrer");
+  },
 
-  const link = document.createElement("a");
-  link.download = `qr-${result.value.shortCode}.png`;
-  link.href = result.value.qrCode;
-  link.click();
+  // ฟังก์ชันดาวน์โหลดเดิมก็เก็บไว้ได้
+  downloadQR() {
+    if (!this.result || !this.result.qrCode) return;
 
-  showToast("ดาวน์โหลด QR Code แล้ว!", "success");
+    const link = document.createElement("a");
+    link.download = `qr-${this.result.shortCode}.png`;
+    link.href = this.result.qrCode;
+    link.click();
+
+    this.showToast("ดาวน์โหลด QR Code แล้ว!", "success");
+  },
 }
 
 // Reset form
