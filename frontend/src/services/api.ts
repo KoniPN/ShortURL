@@ -52,7 +52,7 @@ export async function getAllUrls(): Promise<ApiResponse<UrlData[]>> {
 
 // ดึงประวัติ URL ของ user ที่ login (ต้องมี token)
 export async function getMyUrls(): Promise<ApiResponse<UrlData[]>> {
-  const response = await fetch(`${API_BASE}/my-urls`, {
+  const response = await fetch(`${API_BASE}/api/my-urls`, {
     headers: getAuthHeaders(),
     credentials: "include",
   });
@@ -63,13 +63,13 @@ export async function getMyUrls(): Promise<ApiResponse<UrlData[]>> {
 export async function getAnalytics(
   shortCode: string
 ): Promise<ApiResponse<any>> {
-  const response = await fetch(`${API_BASE}/analytics/${shortCode}`);
+  const response = await fetch(`${API_BASE}/api/analytics/${shortCode}`);
   return response.json();
 }
 
 // ลบ URL
 export async function deleteUrl(shortCode: string): Promise<ApiResponse<any>> {
-  const response = await fetch(`${API_BASE}/urls/${shortCode}`, {
+  const response = await fetch(`${API_BASE}/api/urls/${shortCode}`, {
     method: "DELETE",
   });
   return response.json();
@@ -81,7 +81,7 @@ export async function deleteUrl(shortCode: string): Promise<ApiResponse<any>> {
 export async function getAdminUsers(): Promise<ApiResponse<any>> {
   const headers = getAuthHeaders();
   console.log("📡 Calling GET /api/admin/users with headers:", headers);
-  const response = await fetch(`${API_BASE}/admin/users`, {
+  const response = await fetch(`${API_BASE}/api/admin/users`, {
     headers,
     credentials: "include",
   });
@@ -95,7 +95,7 @@ export async function getAdminUsers(): Promise<ApiResponse<any>> {
 export async function getAdminAllUrls(): Promise<ApiResponse<any>> {
   const headers = getAuthHeaders();
   console.log("📡 Calling GET /api/admin/all-urls with headers:", headers);
-  const response = await fetch(`${API_BASE}/admin/all-urls`, {
+  const response = await fetch(`${API_BASE}/api/admin/all-urls`, {
     headers,
     credentials: "include",
   });
@@ -110,7 +110,7 @@ export async function deleteAdminUrl(
   shortCode: string
 ): Promise<ApiResponse<any>> {
   const headers = getAuthHeaders();
-  const response = await fetch(`${API_BASE}/admin/urls/${shortCode}`, {
+  const response = await fetch(`${API_BASE}/api/admin/urls/${shortCode}`, {
     method: "DELETE",
     headers,
     credentials: "include",
@@ -127,7 +127,7 @@ export async function deleteAdminUser(
     "📡 Calling DELETE /api/admin/users/" + userId + " with headers:",
     headers
   );
-  const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+  const response = await fetch(`${API_BASE}/api/admin/users/${userId}`, {
     method: "DELETE",
     headers,
     credentials: "include",
