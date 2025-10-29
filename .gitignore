@@ -43,4 +43,3 @@ backup/
 *.md
 *lock.json
 
-terraform/
