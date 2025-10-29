@@ -279,6 +279,18 @@ app.delete(
 );
 
 // =====================================================
+// Health Check
+// =====================================================
+
+app.get("/health", (_req: Request, res: Response): void => {
+  res.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+  });
+});
+
+// =====================================================
 // Redirect Route
 // =====================================================
 
@@ -310,17 +322,6 @@ app.get("/:shortCode", async (req: Request, res: Response) => {
   }
 });
 
-// =====================================================
-// Health Check
-// =====================================================
-
-app.get("/health", (_req: Request, res: Response): void => {
-  res.json({
-    status: "ok",
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-  });
-});
 
 // =====================================================
 // Start Server
