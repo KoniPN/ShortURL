@@ -23,7 +23,7 @@ dotenv.config({ path: resolve(__dirname, "../.env") });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const BASE_URL = process.env.BASE_URL || "https://shortsun.online";
+const BASE_URL = process.env.BASE_URL;
 console.log(BASE_URL);
 // Middleware
 app.use(
