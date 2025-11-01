@@ -25,10 +25,24 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL;
 console.log(BASE_URL);
+
+// Allowed origins for CORS
+const allowedOrigins = [
+  "http://shortsun.online",
+  "http://shortsun.online.s3-website-us-east-1.amazonaws.com",
+];
+
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://shortsun.online",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -321,7 +335,6 @@ app.get("/:shortCode", async (req: Request, res: Response) => {
     res.status(500).send("Internal server error");
   }
 });
-
 
 // =====================================================
 // Start Server
